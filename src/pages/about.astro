@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+	title="About Agentic Flow"
+	description="Agentic Flow is a Shopify app that optimizes your product catalog for AI search engines using Google Gemini image analysis."
+	pubDate={new Date('2026-02-22')}
+>
+	<p>
+		<strong>Agentic Flow</strong> is a Shopify app built by a solo developer who got tired of the gap between AI search hype and actual, working solutions for e-commerce merchants.
+	</p>
+
+	<h2>The Problem</h2>
+	<p>
+		AI search engines like ChatGPT, Perplexity, and Google AI Overviews are changing how people discover products. But most Shopify stores are invisible to these platforms because their product data isn't structured for AI consumption.
+	</p>
+	<p>
+		The existing solutions? Either free llms.txt generators that produce a single file no AI crawler actually reads, or enterprise platforms starting at $500/month that are completely inaccessible to small and mid-size merchants.
+	</p>
+
+	<h2>What Agentic Flow Does</h2>
+	<p>
+		Agentic Flow takes a different approach. Instead of reformatting your existing text, it uses <strong>Google Gemini AI to analyze your product images</strong> and generate structured metadata that didn't exist before: accurate category, dominant color, primary material, contextual attributes, and an AI-optimized summary.
+	</p>
+	<p>
+		This data is then injected as <strong>Schema.org JSON-LD</strong> on your storefront (including GTIN/EAN/UPC for AI shopping platforms), published as a spec-compliant <strong>llms.txt feed</strong>, and pushed to search engines via <strong>IndexNow</strong> for faster crawling.
+	</p>
+	<p>
+		The result: a complete AEO (AI Engine Optimization) pipeline that runs automatically after a one-time setup.
+	</p>
+
+	<h2>About This Blog</h2>
+	<p>
+		This blog exists to share honest, data-backed insights about AI search optimization for Shopify merchants. No hype, no guaranteed rankings, no magic bullets. Just practical information about what works, what doesn't, and why.
+	</p>
+	<p>
+		We'll cover topics like structured data best practices, how AI search engines actually find products, IndexNow implementation, and the real state of emerging standards like llms.txt.
+	</p>
+
+	<h2>Get Started</h2>
+	<p>
+		Agentic Flow is available on the <a href="https://apps.shopify.com/agentic-flow-ai" target="_blank">Shopify App Store</a> with a free plan (20 products) so you can test it before committing.
+	</p>
+</Layout>
