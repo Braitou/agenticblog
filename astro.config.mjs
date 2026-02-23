@@ -6,6 +6,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://agentic-flow.com',
+	site: 'https://agentic-flow.app',
 	integrations: [mdx(), sitemap()],
 });

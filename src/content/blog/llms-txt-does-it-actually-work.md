@@ -91,7 +91,7 @@ Your AEO strategy should look like this, in priority order:
 3. High-quality, structured product attributes
 4. llms.txt as a spec-compliant bonus
 
-This is exactly why we built [Agentic Flow](https://apps.shopify.com/agentic-flow-ai) as a complete pipeline rather than a single-feature tool. It does generate llms.txt — but it also scans product images with Google Gemini to create structured metadata, injects Schema.org JSON-LD automatically, and sends IndexNow notifications after every scan. Because a text file alone isn't a strategy.
+This is exactly why we built [Agentic Flow](https://apps.shopify.com/agentic-flow-aeo-metafields) as a complete pipeline rather than a single-feature tool. It does generate llms.txt — but it also scans product images with Google Gemini to create structured metadata, injects Schema.org JSON-LD automatically, and sends IndexNow notifications after every scan. Because a text file alone isn't a strategy.
 
 The merchants who will succeed in AI search are the ones who focus on the mechanisms that are proven today, while keeping a door open for the standards that might matter tomorrow.
 

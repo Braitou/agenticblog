@@ -98,7 +98,7 @@ The merchants who will win in AI search are the ones who treat their product dat
 
 ## Getting Started
 
-If you want to implement this pipeline without manually editing theme code and writing JSON-LD by hand, [Agentic Flow](https://apps.shopify.com/agentic-flow-ai) automates the entire process: AI image analysis with Google Gemini, automatic JSON-LD injection (with GTIN), IndexNow notifications, llms.txt generation, and an AEO Score that tells you exactly where you stand. Free for up to 20 products.
+If you want to implement this pipeline without manually editing theme code and writing JSON-LD by hand, [Agentic Flow](https://apps.shopify.com/agentic-flow-aeo-metafields) automates the entire process: AI image analysis with Google Gemini, automatic JSON-LD injection (with GTIN), IndexNow notifications, llms.txt generation, and an AEO Score that tells you exactly where you stand. Free for up to 20 products.
 
 But regardless of what tool you use, the principles in this guide apply. Structure your data. Include your GTINs. Notify search engines. And be honest about what actually works versus what's just marketing noise.
 

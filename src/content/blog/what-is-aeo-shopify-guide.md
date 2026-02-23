@@ -176,7 +176,7 @@ AEO might sound complex, but you can make meaningful progress in an afternoon:
 - Monitor your AEO Score weekly
 - Auto-scan new products as they're added to your catalog
 
-If you want to automate the full pipeline, [Agentic Flow](https://apps.shopify.com/agentic-flow-ai) handles everything from AI image analysis (using Google Gemini to extract product attributes from photos) to JSON-LD injection, IndexNow, llms.txt, and ongoing monitoring with an AEO Score dashboard. Free for up to 20 products.
+If you want to automate the full pipeline, [Agentic Flow](https://apps.shopify.com/agentic-flow-aeo-metafields) handles everything from AI image analysis (using Google Gemini to extract product attributes from photos) to JSON-LD injection, IndexNow, llms.txt, and ongoing monitoring with an AEO Score dashboard. Free for up to 20 products.
 
 ---
 
