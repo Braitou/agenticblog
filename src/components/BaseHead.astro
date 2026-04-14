@@ -4,17 +4,44 @@
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/blog-placeholder-1.jpg';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_URL } from '../consts';
 
 interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	jsonLd?: Record<string, unknown>[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const { title, description, image = FallbackImage, jsonLd = [] } = Astro.props;
+
+const organizationSchema = {
+	"@context": "https://schema.org",
+	"@type": "Organization",
+	"name": "Agentic Flow",
+	"url": SITE_URL,
+	"logo": `${SITE_URL}/favicon.svg`,
+	"description": "AI search optimization for Shopify merchants",
+	"sameAs": [
+		"https://apps.shopify.com/agentic-flow-aeo-metafields"
+	]
+};
+
+const webSiteSchema = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": "Agentic Flow",
+	"url": SITE_URL,
+	"description": "AI search optimization for Shopify merchants. Guides on AEO, structured data, llms.txt, and getting products found by ChatGPT and Perplexity.",
+	"publisher": {
+		"@type": "Organization",
+		"name": "Agentic Flow"
+	}
+};
+
+const allSchemas = [organizationSchema, webSiteSchema, ...jsonLd];
 ---
 
 <!-- Google Analytics -->
@@ -65,3 +92,6 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />

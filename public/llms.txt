@@ -1,0 +1,36 @@
+# Agentic Flow
+
+> Agentic Flow is a Shopify app that optimizes product catalogs for AI search engines. It uses Google Gemini to analyze product images, generate Schema.org JSON-LD structured data, create llms.txt feeds, and push updates via IndexNow — making Shopify products visible to ChatGPT, Perplexity, and Google AI Overviews.
+
+## Product
+
+- [Agentic Flow on Shopify App Store](https://apps.shopify.com/agentic-flow-aeo-metafields): Install Agentic Flow. Free plan available for up to 20 products.
+- [About Agentic Flow](https://agentic-flow.app/about): What the app does, how it works, and who built it.
+
+## Key Features
+
+- Google Gemini AI product image analysis (extracts category, color, material, contextual attributes)
+- Schema.org JSON-LD injection via Theme App Extension (no code changes required)
+- GTIN/EAN/UPC structured data for AI shopping platforms
+- llms.txt feed generation for AI-readable product catalogs
+- IndexNow integration for instant Bing and ChatGPT indexing
+- AI Visibility Score (AEO Score) with 5-pillar diagnostic
+- Auto-scan for new and updated products
+- Proactive monitoring alerts (JSON-LD status, robots.txt, llms.txt accessibility)
+
+## Pricing
+
+- Free: $0/month, up to 20 products
+- Pro: $9.99/month, up to 5,000 products, bulk scan, auto-scan, IndexNow
+- Ultra: $24.99/month, unlimited scans, priority support
+
+## Guides
+
+- [What Is AEO? The Shopify Merchant's Complete Guide](https://agentic-flow.app/blog/what-is-aeo-shopify-guide/): Everything about AI Engine Optimization — the 5 pillars and a 10-point audit checklist.
+- [How to Optimize Shopify Products for ChatGPT in 2026](https://agentic-flow.app/blog/how-to-optimize-shopify-products-for-chatgpt/): Technical steps to make products visible to ChatGPT, Perplexity, and Google AI Overviews.
+- [GEO for Shopify: Generative Engine Optimization Guide](https://agentic-flow.app/blog/geo-generative-engine-optimization-shopify-guide/): 12-step checklist for getting products recommended in AI-generated answers.
+- [IndexNow for Shopify](https://agentic-flow.app/blog/indexnow-shopify-setup/): How to get products indexed by Bing and ChatGPT in minutes.
+- [GTIN, EAN, UPC for AI Search](https://agentic-flow.app/blog/gtin-ean-upc-shopify-ai-search/): Why product identifiers are mandatory for AI shopping platforms.
+- [llms.txt for Shopify: Does It Actually Work?](https://agentic-flow.app/blog/llms-txt-does-it-actually-work/): Honest analysis of llms.txt adoption and effectiveness.
+- [Shopify Agentic Storefronts](https://agentic-flow.app/blog/shopify-agentic-storefronts-what-merchants-need-to-know/): What Shopify's Agentic Commerce APIs mean for merchants.
+- [Getting Shopify Products into ChatGPT Recommendations](https://agentic-flow.app/blog/shopify-products-chatgpt-recommendations/): How ChatGPT discovers and recommends products.

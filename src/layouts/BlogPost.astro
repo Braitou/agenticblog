@@ -5,15 +5,80 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import { SITE_URL } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+const postUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const blogPostingSchema = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	"headline": title,
+	"description": description,
+	"datePublished": pubDate.toISOString(),
+	...(updatedDate ? { "dateModified": updatedDate.toISOString() } : {}),
+	"author": {
+		"@type": "Organization",
+		"name": "Agentic Flow",
+		"url": SITE_URL
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "Agentic Flow",
+		"url": SITE_URL,
+		"logo": {
+			"@type": "ImageObject",
+			"url": `${SITE_URL}/favicon.svg`
+		}
+	},
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": postUrl
+	},
+	"isPartOf": {
+		"@type": "WebSite",
+		"name": "Agentic Flow",
+		"url": SITE_URL
+	},
+	"mentions": {
+		"@type": "SoftwareApplication",
+		"name": "Agentic Flow",
+		"url": SITE_URL
+	}
+};
+
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{
+			"@type": "ListItem",
+			"position": 1,
+			"name": "Home",
+			"item": SITE_URL
+		},
+		{
+			"@type": "ListItem",
+			"position": 2,
+			"name": "Blog",
+			"item": `${SITE_URL}/blog`
+		},
+		{
+			"@type": "ListItem",
+			"position": 3,
+			"name": title,
+			"item": postUrl
+		}
+	]
+};
 ---
 
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} jsonLd={[blogPostingSchema, breadcrumbSchema]} />
 		<style>
 			main {
 				width: calc(100% - 2em);

@@ -1,134 +1,621 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { APP_URL, SITE_URL } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
-const latestPosts = posts.slice(0, 6);
+const latestPosts = posts.slice(0, 3);
+
+const pageTitle = 'Agentic Flow — AI Search Optimization for Shopify | Get Found by ChatGPT';
+const pageDescription = 'Shopify app that optimizes your product catalog for AI search. Auto-generates Schema.org JSON-LD, llms.txt feeds, and IndexNow updates using Google Gemini. Free for up to 20 products.';
+
+const softwareAppSchema = {
+	"@context": "https://schema.org",
+	"@type": "SoftwareApplication",
+	"name": "Agentic Flow",
+	"description": "AI search optimization app for Shopify that uses Google Gemini to analyze product images and automatically generate Schema.org JSON-LD structured data, llms.txt feeds, and IndexNow notifications to make products visible to ChatGPT, Perplexity, and Google AI Overviews.",
+	"applicationCategory": "BusinessApplication",
+	"operatingSystem": "Web",
+	"url": SITE_URL,
+	"installUrl": APP_URL,
+	"offers": [
+		{
+			"@type": "Offer",
+			"name": "Free",
+			"price": "0",
+			"priceCurrency": "USD",
+			"description": "Up to 20 products with AI image analysis and structured data injection"
+		},
+		{
+			"@type": "Offer",
+			"name": "Pro",
+			"price": "9.99",
+			"priceCurrency": "USD",
+			"priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" },
+			"description": "Up to 5,000 products with bulk scan, auto-scan, and IndexNow"
+		},
+		{
+			"@type": "Offer",
+			"name": "Ultra",
+			"price": "24.99",
+			"priceCurrency": "USD",
+			"priceSpecification": { "@type": "UnitPriceSpecification", "billingDuration": "P1M" },
+			"description": "Unlimited scans with priority support"
+		}
+	],
+	"featureList": [
+		"Google Gemini AI product image analysis",
+		"Schema.org JSON-LD injection via Theme App Extension",
+		"llms.txt feed generation",
+		"IndexNow integration for Bing and ChatGPT",
+		"GTIN/EAN/UPC structured data",
+		"AI Visibility Score (AEO Score)"
+	],
+	"author": {
+		"@type": "Organization",
+		"name": "Agentic Flow",
+		"url": SITE_URL
+	}
+};
+
+const faqEntries = [
+	{
+		q: "What is AI search optimization for Shopify?",
+		a: "AI search optimization (also called AEO, or Answer Engine Optimization) is the process of structuring your Shopify product data so that AI platforms like ChatGPT, Perplexity, and Google AI Overviews can find, understand, and recommend your products to shoppers. It goes beyond traditional SEO by focusing on the structured metadata that AI engines need to build product recommendations."
+	},
+	{
+		q: "How does Agentic Flow make my products visible to ChatGPT?",
+		a: "Agentic Flow uses Google Gemini AI to analyze your product images and extract structured attributes — category, dominant color, primary material, and contextual descriptors. This data is injected as Schema.org JSON-LD on your storefront (including GTIN/EAN/UPC), published as an llms.txt feed for AI crawlers, and pushed to search engines via IndexNow for faster discovery by ChatGPT Search, Perplexity, and Google AI Overviews."
+	},
+	{
+		q: "Does Agentic Flow require code changes to my Shopify theme?",
+		a: "No. Agentic Flow uses a native Shopify Theme App Extension to inject structured data automatically. You simply toggle it on in your theme editor — no code editing, no developer needed. It works with all Shopify themes."
+	},
+	{
+		q: "How much does Agentic Flow cost?",
+		a: "Agentic Flow offers a Free plan for up to 20 products (no credit card required), a Pro plan at $9.99/month for up to 5,000 products with bulk scanning and IndexNow integration, and an Ultra plan at $24.99/month for unlimited scans and priority support. All billing is handled through Shopify — cancel anytime."
+	},
+	{
+		q: "Will Agentic Flow slow down my Shopify store?",
+		a: "No. The structured data is injected server-side into your page markup. There is no client-side JavaScript added to your storefront, so your page load speed is not affected. The Theme App Extension adds only a lightweight JSON-LD script tag to your product pages."
+	},
+	{
+		q: "What is an llms.txt file and does it help with AI search?",
+		a: "llms.txt is an emerging standard that provides AI agents with a machine-readable summary of your store's products. While adoption by major crawlers is still early, it signals to AI systems that your store is optimized for AI consumption and provides clean, structured product data. Agentic Flow generates and maintains your llms.txt feed automatically."
+	},
+	{
+		q: "How quickly will my products appear in AI search results?",
+		a: "IndexNow notifies search engines of your product updates within minutes. However, appearing in AI search results depends on multiple factors — the search engine's processing time, your product's relevance to specific queries, and the completeness of your structured data. Most merchants see their structured data indexed within days, though recommendation rankings build over weeks."
+	},
+	{
+		q: "How is Agentic Flow different from other Shopify SEO apps?",
+		a: "Most Shopify SEO apps optimize for traditional Google search. Agentic Flow is built specifically for AI search engines. Its key differentiator is AI image analysis — instead of reformatting your existing text descriptions, Gemini analyzes your product photos to generate entirely new structured data (color, material, category, attributes) that didn't exist before. Combined with automatic JSON-LD injection, llms.txt feeds, and IndexNow, it provides a complete AEO pipeline, not just a single feature."
+	}
+];
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": faqEntries.map(({ q, a }) => ({
+		"@type": "Question",
+		"name": q,
+		"acceptedAnswer": {
+			"@type": "Answer",
+			"text": a
+		}
+	}))
+};
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={pageTitle} description={pageDescription} jsonLd={[softwareAppSchema, faqSchema]} />
 		<style>
-			.hero {
-				text-align: center;
-				padding: 3em 1em 2em;
+			/* ===== Landing Page Layout ===== */
+			main {
+				width: 100%;
+				max-width: 100%;
+				padding: 0;
+				margin: 0;
+			}
+			.section {
+				padding: 4rem 1rem;
+			}
+			.section-alt {
+				background: linear-gradient(var(--gray-gradient)) no-repeat;
+			}
+			.section-content {
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.section-narrow {
 				max-width: 720px;
 				margin: 0 auto;
 			}
-			.hero h1 {
-				font-size: 2.5em;
+			.section h2 {
+				text-align: center;
 				margin-bottom: 0.3em;
-				line-height: 1.15;
+				font-size: 2em;
 			}
-			.hero p {
+			.section-subtitle {
+				text-align: center;
+				color: rgb(var(--gray));
+				font-size: 1.05em;
+				margin-bottom: 2.5em;
+				max-width: 640px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			/* ===== Hero ===== */
+			.hero {
+				text-align: center;
+				padding: 4rem 1rem 3rem;
+			}
+			.hero h1 {
+				font-size: 2.6em;
+				margin-bottom: 0.4em;
+				line-height: 1.12;
+				max-width: 800px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.hero-sub {
 				font-size: 1.15em;
 				color: rgb(var(--gray));
-				margin-bottom: 1.5em;
+				max-width: 620px;
+				margin: 0 auto 2em;
+				line-height: 1.6;
 			}
-			.hero .cta {
+			.hero-ctas {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+			}
+			.btn-primary {
 				display: inline-block;
 				background: var(--accent);
 				color: white;
-				padding: 0.75em 2em;
+				padding: 0.8em 2em;
 				border-radius: 8px;
 				text-decoration: none;
 				font-weight: 700;
 				font-size: 1em;
 				transition: background 0.2s;
 			}
-			.hero .cta:hover {
+			.btn-primary:hover {
 				background: var(--accent-dark);
 				color: white;
 			}
-			.posts-section {
-				max-width: 960px;
-				margin: 0 auto;
-				padding: 1em;
-			}
-			.posts-section h2 {
-				margin-bottom: 1em;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
+			.btn-secondary {
+				display: inline-block;
+				color: var(--accent);
 				text-decoration: none;
-				transition: 0.2s ease;
+				font-weight: 600;
+				font-size: 1em;
+				padding: 0.8em 1.5em;
+				transition: color 0.2s;
 			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
+			.btn-secondary:hover {
+				color: var(--accent-dark);
+			}
+			.hero-trust {
+				margin-top: 1.5em;
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+			}
+
+			/* ===== Stats Grid ===== */
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+				margin-bottom: 2rem;
+			}
+			.stat-item {
 				text-align: center;
 			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
+			.stat-number {
+				font-size: 2.5em;
+				font-weight: 700;
+				color: var(--accent);
+				line-height: 1.1;
 				display: block;
 			}
-			.title {
+			.stat-label {
+				font-size: 0.9em;
+				color: rgb(var(--gray-dark));
+				margin-top: 0.3em;
+				line-height: 1.4;
+			}
+			.problem-closing {
+				text-align: center;
+				font-weight: 500;
+				max-width: 640px;
+				margin: 0 auto;
+				color: rgb(var(--gray-dark));
+			}
+
+			/* ===== Steps ===== */
+			.steps-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2.5rem;
+			}
+			.step {
+				text-align: center;
+			}
+			.step-number {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 56px;
+				height: 56px;
+				border-radius: 50%;
+				background: var(--accent);
+				color: white;
+				font-size: 1.4em;
+				font-weight: 700;
+				margin-bottom: 1em;
+			}
+			.step h3 {
+				font-size: 1.2em;
+				margin-bottom: 0.5em;
+			}
+			.step p {
+				color: rgb(var(--gray));
+				font-size: 0.95em;
+				line-height: 1.5;
+			}
+
+			/* ===== Feature Cards ===== */
+			.features-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+			}
+			.feature-card {
+				background: white;
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 12px;
+				padding: 2rem;
+				transition: box-shadow 0.2s;
+			}
+			.feature-card:hover {
+				box-shadow: var(--box-shadow);
+			}
+			.feature-icon {
+				font-size: 2em;
+				margin-bottom: 0.5em;
+				display: block;
+			}
+			.feature-card h3 {
+				font-size: 1.15em;
+				margin-bottom: 0.5em;
+			}
+			.feature-card p {
+				color: rgb(var(--gray));
+				font-size: 0.92em;
+				line-height: 1.55;
+				margin-bottom: 0.5em;
+			}
+			.feature-card a {
+				font-size: 0.88em;
+				font-weight: 600;
+			}
+
+			/* ===== Before/After ===== */
+			.comparison-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+			}
+			.comparison-card {
+				border-radius: 12px;
+				padding: 2rem;
+			}
+			.comparison-before {
+				background: #fef2f2;
+				border: 1px solid #fecaca;
+			}
+			.comparison-after {
+				background: #ecfdf5;
+				border: 1px solid #a7f3d0;
+			}
+			.comparison-card h3 {
+				font-size: 1.1em;
+				margin-bottom: 1em;
+			}
+			.comparison-before h3 {
+				color: #dc2626;
+			}
+			.comparison-after h3 {
+				color: #059669;
+			}
+			.comparison-card ul {
+				list-style: none;
+				padding: 0;
 				margin: 0;
+			}
+			.comparison-card li {
+				padding: 0.4em 0;
+				font-size: 0.92em;
+				line-height: 1.5;
+				color: rgb(var(--gray-dark));
+			}
+			.comparison-card li::before {
+				margin-right: 0.5em;
+			}
+			.comparison-before li::before {
+				content: "\2717";
+				color: #dc2626;
+			}
+			.comparison-after li::before {
+				content: "\2713";
+				color: #059669;
+			}
+			.comparison-table {
+				margin-top: 2rem;
+			}
+			.comparison-table table {
+				font-size: 0.9em;
+			}
+			.comparison-table th:first-child {
+				width: 40%;
+			}
+
+			/* ===== Trust ===== */
+			.trust-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2rem;
+			}
+			.trust-item {
+				text-align: center;
+				padding: 1.5rem;
+			}
+			.trust-icon {
+				font-size: 2em;
+				margin-bottom: 0.5em;
+				display: block;
+			}
+			.trust-item h3 {
+				font-size: 1em;
+				margin-bottom: 0.3em;
+			}
+			.trust-item p {
+				color: rgb(var(--gray));
+				font-size: 0.88em;
+				line-height: 1.4;
+			}
+
+			/* ===== Pricing ===== */
+			.pricing-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.5rem;
+			}
+			.pricing-card {
+				border: 1px solid rgb(var(--gray-light));
+				border-radius: 12px;
+				padding: 2rem;
+				background: white;
+				text-align: center;
+				position: relative;
+				transition: box-shadow 0.2s;
+			}
+			.pricing-card:hover {
+				box-shadow: var(--box-shadow);
+			}
+			.pricing-featured {
+				border: 2px solid var(--accent);
+			}
+			.pricing-badge {
+				position: absolute;
+				top: -12px;
+				left: 50%;
+				transform: translateX(-50%);
+				background: var(--accent);
+				color: white;
+				font-size: 0.75em;
+				font-weight: 700;
+				padding: 0.3em 1em;
+				border-radius: 20px;
+				white-space: nowrap;
+			}
+			.pricing-card h3 {
+				font-size: 1.2em;
+				margin-bottom: 0.3em;
+			}
+			.pricing-price {
+				font-size: 2.2em;
+				font-weight: 700;
 				color: rgb(var(--black));
 				line-height: 1.2;
 			}
-			.description {
-				margin: 0.3em 0 0;
+			.pricing-period {
+				font-size: 0.4em;
+				font-weight: 400;
 				color: rgb(var(--gray));
-				font-size: 0.85em;
-				line-height: 1.4;
 			}
-			.date {
-				margin: 0;
+			.pricing-desc {
+				font-size: 0.88em;
 				color: rgb(var(--gray));
-				font-size: 0.85em;
+				margin-bottom: 1.5em;
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
+			.pricing-features {
+				list-style: none;
+				padding: 0;
+				margin: 0 0 2em;
+				text-align: left;
 			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+			.pricing-features li {
+				padding: 0.35em 0;
+				font-size: 0.9em;
+				color: rgb(var(--gray-dark));
 			}
-			@media (max-width: 720px) {
+			.pricing-features li::before {
+				content: "\2713";
+				color: var(--accent);
+				font-weight: 700;
+				margin-right: 0.5em;
+			}
+			.pricing-note {
+				text-align: center;
+				margin-top: 1.5em;
+				font-size: 0.88em;
+				color: rgb(var(--gray));
+			}
+
+			/* ===== FAQ ===== */
+			.faq-list {
+				display: flex;
+				flex-direction: column;
+				gap: 0;
+			}
+			.faq-list details {
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.faq-list summary {
+				padding: 1.2em 0;
+				font-weight: 600;
+				font-size: 1em;
+				cursor: pointer;
+				color: rgb(var(--black));
+				list-style: none;
+			}
+			.faq-list summary::-webkit-details-marker {
+				display: none;
+			}
+			.faq-list summary::after {
+				content: "+";
+				float: right;
+				font-size: 1.3em;
+				font-weight: 400;
+				color: rgb(var(--gray));
+				transition: transform 0.2s;
+			}
+			.faq-list details[open] summary::after {
+				content: "\2212";
+			}
+			.faq-list details p {
+				padding: 0 0 1.2em;
+				color: rgb(var(--gray-dark));
+				font-size: 0.95em;
+				line-height: 1.6;
+			}
+
+			/* ===== Blog Preview ===== */
+			.blog-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2rem;
+				margin-bottom: 2rem;
+			}
+			.blog-card {
+				text-decoration: none;
+				display: block;
+				transition: transform 0.2s;
+			}
+			.blog-card:hover {
+				transform: translateY(-2px);
+			}
+			.blog-card h4 {
+				font-size: 1.05em;
+				margin-bottom: 0.3em;
+				color: rgb(var(--black));
+				line-height: 1.3;
+			}
+			.blog-card .date {
+				font-size: 0.82em;
+				color: rgb(var(--gray));
+			}
+			.blog-more {
+				text-align: center;
+			}
+
+			/* ===== Final CTA ===== */
+			.final-cta {
+				background: var(--accent-dark);
+				color: white;
+				text-align: center;
+				padding: 4rem 1rem;
+			}
+			.final-cta h2 {
+				color: white;
+				margin-bottom: 0.4em;
+			}
+			.final-cta p {
+				color: rgba(255, 255, 255, 0.9);
+				max-width: 560px;
+				margin: 0 auto 2em;
+				font-size: 1.05em;
+			}
+			.btn-inverted {
+				display: inline-block;
+				background: white;
+				color: var(--accent-dark);
+				padding: 0.8em 2.5em;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 700;
+				font-size: 1.05em;
+				transition: background 0.2s, transform 0.2s;
+			}
+			.btn-inverted:hover {
+				background: #f0f0f0;
+				color: var(--accent-dark);
+				transform: translateY(-1px);
+			}
+
+			/* ===== Responsive ===== */
+			@media (max-width: 768px) {
+				.section {
+					padding: 3rem 1rem;
+				}
+				.hero {
+					padding: 3rem 1rem 2rem;
+				}
 				.hero h1 {
 					font-size: 1.8em;
 				}
-				ul {
-					gap: 0.5em;
+				.section h2 {
+					font-size: 1.6em;
 				}
-				ul li {
-					width: 100%;
-					text-align: center;
+				.stats-grid {
+					grid-template-columns: 1fr 1fr;
+					gap: 1.5rem;
 				}
-				ul li:first-child {
-					margin-bottom: 0;
+				.steps-grid {
+					grid-template-columns: 1fr;
+					gap: 2rem;
 				}
-				ul li:first-child .title {
-					font-size: 1.4em;
+				.features-grid {
+					grid-template-columns: 1fr;
+				}
+				.comparison-grid {
+					grid-template-columns: 1fr;
+				}
+				.trust-grid {
+					grid-template-columns: 1fr;
+					gap: 1rem;
+				}
+				.pricing-grid {
+					grid-template-columns: 1fr;
+					max-width: 400px;
+					margin-left: auto;
+					margin-right: auto;
+				}
+				.blog-grid {
+					grid-template-columns: 1fr;
 				}
 			}
 		</style>
@@ -136,35 +623,301 @@ const latestPosts = posts.slice(0, 6);
 	<body>
 		<Header />
 		<main>
-			<section class="hero">
-				<h1>Get Your Shopify Products Found by AI Search</h1>
-				<p>
-					Practical guides on AI Engine Optimization (AEO), structured data, and making your product catalog visible to ChatGPT, Perplexity, and Google AI Overviews.
-				</p>
-				<a href="https://apps.shopify.com/agentic-flow-aeo-metafields" class="cta" target="_blank">
-					Try Agentic Flow Free
-				</a>
+			<!-- ===== 1. HERO ===== -->
+			<section class="hero" id="hero" aria-labelledby="hero-heading">
+				<div class="section-narrow">
+					<h1 id="hero-heading">AI Search Optimization for Shopify: Your Products Are Invisible to ChatGPT</h1>
+					<p class="hero-sub">
+						Agentic Flow uses Google Gemini to analyze your product images and generate the structured data that ChatGPT, Perplexity, and Google AI Overviews need to recommend your products.
+					</p>
+					<div class="hero-ctas">
+						<a href={APP_URL} class="btn-primary" target="_blank" rel="noopener" aria-label="Install Agentic Flow free on Shopify App Store (opens in new tab)">
+							Start Free &mdash; 20 Products Included
+						</a>
+						<a href="#how-it-works" class="btn-secondary">See how it works &darr;</a>
+					</div>
+					<p class="hero-trust">Free plan available. No credit card required. Installs in under 2 minutes.</p>
+				</div>
 			</section>
-			<section class="posts-section">
-				<h2>Latest Articles</h2>
-				<ul>
-					{
-						latestPosts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="description">{post.data.description}</p>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+
+			<!-- ===== 2. PROBLEM ===== -->
+			<section class="section section-alt" id="the-shift" aria-labelledby="problem-heading">
+				<div class="section-content">
+					<h2 id="problem-heading">Why Your Shopify Products Don't Appear in AI Search Results</h2>
+					<p class="section-subtitle">
+						Shopping discovery is shifting from search engines to AI assistants. If your product data isn't structured for AI, you're missing the fastest-growing sales channel in e-commerce.
+					</p>
+					<div class="stats-grid">
+						<div class="stat-item">
+							<span class="stat-number">25%</span>
+							<p class="stat-label">of search traffic is shifting to AI chatbots in 2026</p>
+						</div>
+						<div class="stat-item">
+							<span class="stat-number">800M</span>
+							<p class="stat-label">weekly active users on ChatGPT asking for product recommendations</p>
+						</div>
+						<div class="stat-item">
+							<span class="stat-number">4.4x</span>
+							<p class="stat-label">higher conversion rate from AI search visitors vs. traditional organic</p>
+						</div>
+						<div class="stat-item">
+							<span class="stat-number">$112B</span>
+							<p class="stat-label">in retail sales projected to be driven by AI chatbots in 2026</p>
+						</div>
+					</div>
+					<p class="problem-closing">
+						Shopify merchants who structure their product data now have a first-mover advantage. Those who wait will be playing catch-up. <a href="/blog/what-is-aeo-shopify-guide/">Learn what AEO means for your store</a>.
+					</p>
+				</div>
+			</section>
+
+			<!-- ===== 3. HOW IT WORKS ===== -->
+			<section class="section" id="how-it-works" aria-labelledby="how-heading">
+				<div class="section-content">
+					<h2 id="how-heading">How Agentic Flow Optimizes Your Products for AI Search</h2>
+					<p class="section-subtitle">Set up once. Let AI do the rest. No coding, no developers, no ongoing manual work.</p>
+					<div class="steps-grid">
+						<div class="step">
+							<span class="step-number">1</span>
+							<h3>Install and Connect</h3>
+							<p>Add Agentic Flow from the <a href={APP_URL} target="_blank" rel="noopener">Shopify App Store</a>. It connects to your product catalog automatically and works with every Shopify theme.</p>
+						</div>
+						<div class="step">
+							<span class="step-number">2</span>
+							<h3>AI Analyzes Your Products</h3>
+							<p>Google Gemini scans your product images and generates structured metadata that didn't exist before: accurate category, dominant color, primary material, and an <a href="/blog/how-to-optimize-shopify-products-for-chatgpt/">AI-optimized summary</a>.</p>
+						</div>
+						<div class="step">
+							<span class="step-number">3</span>
+							<h3>Your Store Gets Discovered</h3>
+							<p>Schema.org JSON-LD goes live on your pages. An <a href="/blog/llms-txt-does-it-actually-work/">llms.txt feed</a> is published for AI crawlers. <a href="/blog/indexnow-shopify-setup/">IndexNow</a> notifies search engines instantly.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ===== 4. FEATURES ===== -->
+			<section class="section section-alt" id="features" aria-labelledby="features-heading">
+				<div class="section-content">
+					<h2 id="features-heading">Everything AI Search Engines Need to Find Your Products</h2>
+					<p class="section-subtitle">A complete AEO pipeline — not just a single feature. Image analysis, structured data, AI feeds, and instant indexing.</p>
+					<div class="features-grid">
+						<div class="feature-card">
+							<span class="feature-icon" aria-hidden="true">&#129302;</span>
+							<h3>Google Gemini AI Image Analysis</h3>
+							<p>
+								Your product photos contain information your text descriptions miss. Gemini AI extracts accurate category, dominant color, primary material, and contextual attributes (like neckline, fit, or closure type) from up to 3 images per product. This creates structured metadata that simply didn't exist before — data that AI shopping platforms need to make recommendations.
+							</p>
+						</div>
+						<div class="feature-card">
+							<span class="feature-icon" aria-hidden="true">&#128736;</span>
+							<h3>Automatic Schema.org JSON-LD</h3>
+							<p>
+								Rich product markup is injected directly into your storefront HTML via a native Theme App Extension. Includes <a href="/blog/gtin-ean-upc-shopify-ai-search/">GTIN, EAN, and UPC identifiers</a> that ChatGPT Shopping and Perplexity require for product matching, plus AggregateRating and MerchantReturnPolicy. No theme editing required.
+							</p>
+						</div>
+						<div class="feature-card">
+							<span class="feature-icon" aria-hidden="true">&#128196;</span>
+							<h3>llms.txt Feed for AI Agents</h3>
+							<p>
+								A spec-compliant <a href="/blog/llms-txt-does-it-actually-work/">llms.txt feed</a> is generated and maintained automatically on your domain. AI crawlers can read your entire product catalog in a single request, structured with categories, links, and metadata — instead of scraping pages one by one.
+							</p>
+						</div>
+						<div class="feature-card">
+							<span class="feature-icon" aria-hidden="true">&#9889;</span>
+							<h3>IndexNow for Instant Indexing</h3>
+							<p>
+								When you update products, <a href="/blog/indexnow-shopify-setup/">IndexNow</a> pings Bing, Yandex, and connected engines immediately. Bing feeds ChatGPT Search and Microsoft Copilot — so your product changes reach AI assistants in minutes, not weeks.
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ===== 5. BEFORE / AFTER ===== -->
+			<section class="section" id="comparison" aria-labelledby="comparison-heading">
+				<div class="section-content">
+					<h2 id="comparison-heading">Before and After: How AI Search Engines See Your Products</h2>
+					<p class="section-subtitle">Most Shopify stores send AI engines a product title and a price. That's not enough to earn a recommendation.</p>
+					<div class="comparison-grid">
+						<div class="comparison-card comparison-before">
+							<h3>Without Agentic Flow</h3>
+							<ul>
+								<li>Product name, price, and basic availability only</li>
+								<li>No category, color, or material metadata</li>
+								<li>GTIN/barcode field left empty</li>
+								<li>No AI-readable product feed</li>
+								<li>Search engines crawl on their own schedule</li>
+								<li>Invisible to ChatGPT, Perplexity, and AI Overviews</li>
+							</ul>
+						</div>
+						<div class="comparison-card comparison-after">
+							<h3>With Agentic Flow</h3>
+							<ul>
+								<li>15+ structured Schema.org fields per product</li>
+								<li>AI-extracted category, color, material, and attributes</li>
+								<li>GTIN/EAN/UPC included in JSON-LD</li>
+								<li>llms.txt feed updated automatically</li>
+								<li>IndexNow notifies engines within minutes</li>
+								<li>Eligible for AI shopping recommendations</li>
+							</ul>
+						</div>
+					</div>
+					<div class="comparison-table section-narrow">
+						<table>
+							<thead>
+								<tr>
+									<th>Product Data</th>
+									<th>Before</th>
+									<th>After Agentic Flow</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Schema.org fields</td>
+									<td>4-6 (name, price, image, availability)</td>
+									<td>15-20+ (adds category, color, material, GTIN, reviews, returns, shipping)</td>
+								</tr>
+								<tr>
+									<td>AI search eligibility</td>
+									<td>Products invisible to ChatGPT and Perplexity</td>
+									<td>Products eligible for AI shopping recommendations</td>
+								</tr>
+								<tr>
+									<td>Time to index changes</td>
+									<td>Days to weeks</td>
+									<td>Minutes via IndexNow</td>
+								</tr>
+								<tr>
+									<td>Product attributes</td>
+									<td>Manual text descriptions only</td>
+									<td>AI-extracted structured attributes from images</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</section>
+
+			<!-- ===== 6. TRUST ===== -->
+			<section class="section section-alt" id="trust" aria-labelledby="trust-heading">
+				<div class="section-content">
+					<h2 id="trust-heading">Built for Shopify Merchants</h2>
+					<div class="trust-grid">
+						<div class="trust-item">
+							<span class="trust-icon" aria-hidden="true">&#127991;</span>
+							<h3>Official Shopify App</h3>
+							<p>Listed on the Shopify App Store. Reviewed and approved. Billing handled by Shopify. Uninstall in one click.</p>
+						</div>
+						<div class="trust-item">
+							<span class="trust-icon" aria-hidden="true">&#128274;</span>
+							<h3>Your Data Stays Yours</h3>
+							<p>We read your product catalog to generate metadata. We never access customer data, orders, or payment information.</p>
+						</div>
+						<div class="trust-item">
+							<span class="trust-icon" aria-hidden="true">&#128640;</span>
+							<h3>Zero Impact on Speed</h3>
+							<p>Structured data is injected server-side. No client-side JavaScript on your storefront. Your page load speed is unaffected.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ===== 7. PRICING ===== -->
+			<section class="section" id="pricing" aria-labelledby="pricing-heading">
+				<div class="section-content">
+					<h2 id="pricing-heading">Pricing &mdash; Start Optimizing for Free</h2>
+					<p class="section-subtitle">No credit card required. Upgrade when you need more. All billing through Shopify &mdash; cancel anytime.</p>
+					<div class="pricing-grid">
+						<div class="pricing-card">
+							<h3>Free</h3>
+							<p class="pricing-price">$0</p>
+							<p class="pricing-desc">Try it with your first products</p>
+							<ul class="pricing-features">
+								<li>Up to 20 products</li>
+								<li>Gemini AI image analysis</li>
+								<li>Schema.org JSON-LD injection</li>
+								<li>llms.txt feed generation</li>
+								<li>AEO Visibility Score</li>
+							</ul>
+							<a href={APP_URL} class="btn-primary" target="_blank" rel="noopener" aria-label="Install free plan on Shopify App Store (opens in new tab)">Install Free</a>
+						</div>
+						<div class="pricing-card pricing-featured">
+							<span class="pricing-badge">Most Popular</span>
+							<h3>Pro</h3>
+							<p class="pricing-price">$9.99<span class="pricing-period"> / month</span></p>
+							<p class="pricing-desc">For growing stores</p>
+							<ul class="pricing-features">
+								<li>Up to 5,000 products</li>
+								<li>Everything in Free</li>
+								<li>Bulk scan &amp; auto-scan</li>
+								<li>IndexNow integration</li>
+								<li>Proactive alerts</li>
+								<li>Email support</li>
+							</ul>
+							<a href={APP_URL} class="btn-primary" target="_blank" rel="noopener" aria-label="Install Pro plan on Shopify App Store (opens in new tab)">Start with Pro</a>
+						</div>
+						<div class="pricing-card">
+							<h3>Ultra</h3>
+							<p class="pricing-price">$24.99<span class="pricing-period"> / month</span></p>
+							<p class="pricing-desc">For large catalogs</p>
+							<ul class="pricing-features">
+								<li>Unlimited scans</li>
+								<li>Everything in Pro</li>
+								<li>Scan entire catalog in one click</li>
+								<li>Auto-scan new &amp; updated products</li>
+								<li>Priority support</li>
+							</ul>
+							<a href={APP_URL} class="btn-primary" target="_blank" rel="noopener" aria-label="Install Ultra plan on Shopify App Store (opens in new tab)">Start with Ultra</a>
+						</div>
+					</div>
+					<p class="pricing-note">All plans billed through Shopify. No separate account needed.</p>
+				</div>
+			</section>
+
+			<!-- ===== 8. FAQ ===== -->
+			<section class="section section-alt" id="faq" aria-labelledby="faq-heading">
+				<div class="section-narrow">
+					<h2 id="faq-heading">Frequently Asked Questions About AI Search Optimization</h2>
+					<div class="faq-list">
+						{faqEntries.map(({ q, a }) => (
+							<details>
+								<summary>{q}</summary>
+								<p>{a}</p>
+							</details>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<!-- ===== 9. BLOG PREVIEW ===== -->
+			<section class="section" id="blog-preview" aria-labelledby="blog-heading">
+				<div class="section-content">
+					<h2 id="blog-heading">Latest from the Agentic Flow Blog</h2>
+					<p class="section-subtitle">Practical guides on AI search optimization for Shopify. No hype, no jargon.</p>
+					<div class="blog-grid">
+						{latestPosts.map((post) => (
+							<a href={`/blog/${post.id}/`} class="blog-card">
+								<h4>{post.data.title}</h4>
+								<p class="date"><FormattedDate date={post.data.pubDate} /></p>
+							</a>
+						))}
+					</div>
+					<p class="blog-more">
+						<a href="/blog">Read all articles &rarr;</a>
+					</p>
+				</div>
+			</section>
+
+			<!-- ===== 10. FINAL CTA ===== -->
+			<section class="final-cta" id="final-cta" aria-labelledby="final-heading">
+				<div class="section-narrow">
+					<h2 id="final-heading">Your Competitors Are Already Optimizing for AI Search</h2>
+					<p>The merchants who structure their product data now will own the AI search results tomorrow. Start with 20 products free.</p>
+					<a href={APP_URL} class="btn-inverted" target="_blank" rel="noopener" aria-label="Install Agentic Flow free (opens Shopify App Store in new tab)">
+						Install Agentic Flow Free
+					</a>
+				</div>
 			</section>
 		</main>
 		<Footer />
